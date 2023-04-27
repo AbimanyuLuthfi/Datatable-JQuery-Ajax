@@ -49,11 +49,11 @@ class DataModel extends Model
         return $this->findAll();
     }
 
-    public function createItem($array_data) {
+    public function createItem($data) {
         $data = [
-            'nama' => $array_data['nama'],
-            'no_telp' => $array_data['no_telp'],
-            'email' => $array_data['email'],    
+            'nama' => $data['nama'],
+            'no_telp' => $data['no_telp'],
+            'email' => $data['email'],    
         ];
         $this->save($data);
         return $this->getInsertID();

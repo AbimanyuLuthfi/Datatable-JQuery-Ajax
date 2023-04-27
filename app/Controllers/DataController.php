@@ -24,17 +24,14 @@ class DataController extends BaseController
         $email = $this->request->getVar('email');
 
         $dataModel = new DataModel();
-        $array_data = $dataModel->createItem([
+        $data = $dataModel->createItem([
             'nama' => $nama,
             'no_telp' => $no_telp,
             'email' => $email,
         ]);
 
-        if (!empty($array_data['id'])) {
-            return redirect()->to('/')->with('success', 'Berhasil Menambah Data');
-        } else {
-            return redirect()->to('/')->with('message', 'Gagal Menambah Data');
-        }
+        $data = ['status' => 'Success Inserted New Data'];
+            return $this->response->setJSON($data);
     }
 
     public function list_data_index(){
