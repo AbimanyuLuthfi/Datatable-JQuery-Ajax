@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Homepage</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+
+    <script src="https://code.jquery.com/jquery-3.6.4.js" integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=" crossorigin="anonymous"></script>
 </head>
 
 <body>
@@ -20,21 +22,21 @@
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
-                        <label>Nama</label>
-                        <input type="text" class="form-control" placeholder="Nama">
+                        <label>Nama</label><span id="error_nama" class="text-danger ms-3"></span>
+                        <input type="text" class="form-control nama" placeholder="Nama">
                     </div>
                     <div class="form-group">
-                        <label>No Telp</label>
-                        <input type="text" class="form-control" placeholder="Nama">
+                        <label>No Telp</label><span id="error_no_telp" class="text-danger ms-3"></span>
+                        <input type="text" class="form-control no_telp" placeholder="Nama">
                     </div>
                     <div class="form-group">
-                        <label>Email</label>
-                        <input type="email" class="form-control" placeholder="Nama">
+                        <label>Email</label><span id="error_email" class="text-danger ms-3"></span>
+                        <input type="email" class="form-control email" placeholder="Nama">
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save</button>
+                    <button type="button" class="btn btn-primary ajaxdata-save">Save</button>
                 </div>
             </div>
         </div>
@@ -59,6 +61,36 @@
             </div>
         </div>
     </div>
+
+    <script>
+        $(document).ready(function(){
+            $(document).on('click', '.ajaxdata-save', function(){
+
+                if($.trim($('.nama').val()).length == 0){
+                    error_nama = 'Name Cannot Be Empty!!';
+                    $('#error_nama').text(error_nama);
+                } else {
+                    error_nama = '';
+                    $('#error_nama').text(error_nama);
+                }
+                if($.trim($('.no_telp').val()).length == 0){
+                    error_no_telp = 'Please Fill Your Phone Number!!';
+                    $('#error_no_telp').text(error_no_telp);
+                } else {
+                    error_no_telp = '';
+                    $('#error_no_telp').text(error_no_telp);
+                }
+                if($.trim($('.email').val()).length == 0){
+                    error_email = 'Email Cannot Be Empty!!';
+                    $('#error_email').text(error_email);
+                } else {
+                    error_email = '';
+                    $('#error_email').text(error_email);
+                }
+            });
+        });
+    </script>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
 </body>
 
