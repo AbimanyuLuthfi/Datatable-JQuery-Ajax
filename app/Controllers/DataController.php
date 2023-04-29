@@ -7,6 +7,9 @@ use App\Models\DataModel;
 
 class DataController extends BaseController
 {
+    /**
+     * GET : /
+     */
     public function index()
     {
         $dataModel = new DataModel();
@@ -17,6 +20,9 @@ class DataController extends BaseController
         return view('homepage-test', $data);
     }
 
+    /**
+     * POST : create/data/post
+     */
     public function admin_data_create()
     {
         $nama = $this->request->getVar('nama');
@@ -32,6 +38,15 @@ class DataController extends BaseController
 
         $data = ['status' => 'Success Inserted New Data'];
             return $this->response->setJSON($data);
+    }
+
+    /**
+     * GET : data/index
+     */
+    public function fetch_data(){
+        $dataModel = new DataModel;
+        $getItems['data'] = $dataModel->getAllItem();
+        return $this->response->setJSON($getItems);
     }
 
     public function list_data_index(){

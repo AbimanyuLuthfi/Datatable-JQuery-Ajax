@@ -5,12 +5,9 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Homepage</title>
+
+    <!-- Bootstrap 5 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
-
-    <script src="https://code.jquery.com/jquery-3.6.4.js" integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=" crossorigin="anonymous"></script>
-
-<!-- CSS -->
-<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css"/>
 </head>
 
 <body>
@@ -58,34 +55,85 @@
                         </h4>
                     </div>
                     <div class="card-body">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>No</th>
+                                    <th>Nama</th>
+                                    <th>No Telp</th>
+                                    <th>Email</th>
+                                    <th>Created At</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody class="data-information">
 
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- JavaScript -->
-<script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
-    <script>
-        $(document).ready(function(){
-            $(document).on('click', '.ajaxdata-save', function(){
+    <!-- CSS -->
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css" />
 
-                if($.trim($('.nama').val()).length == 0){
+    <!-- JavaScript -->
+    <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.4.js" integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=" crossorigin="anonymous"></script>
+
+
+    <script>
+        $(document).ready(function () {
+            loaddata();
+        });
+
+        function loaddata(){
+            $.ajax({
+                method: "GET",
+                url: "data/index",
+                success: function (response){
+                    //console.log(response.data);
+                    $.each(response.data, function (key, value) { 
+                        // console.log(value['name']);
+                        $('.data-information').append('<tr>\
+                        <td>'+value['id']+'</td>\
+                        <td>'+value['nama']+'</td>\
+                        <td>'+value['no_telp']+'</td>\
+                        <td>'+value['email']+'</td>\
+                        <td>'+value['created_at']+'</td>\
+                        <td>\
+                        <a href="#" class="btn btn-info view_btn">Edit</a>\
+                        <a href="#" class="btn btn-danger delete_btn">Delete</a>\
+                        </td>\
+                        </tr>');
+                    });
+                }
+            });
+        }
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            $(document).on('click', '.ajaxdata-save', function() {
+
+                if ($.trim($('.nama').val()).length == 0) {
                     error_nama = 'Name Cannot Be Empty!!';
                     $('#error_nama').text(error_nama);
                 } else {
                     error_nama = '';
                     $('#error_nama').text(error_nama);
                 }
-                if($.trim($('.no_telp').val()).length == 0){
+                if ($.trim($('.no_telp').val()).length == 0) {
                     error_no_telp = 'Please Fill Your Phone Number!!';
                     $('#error_no_telp').text(error_no_telp);
                 } else {
                     error_no_telp = '';
                     $('#error_no_telp').text(error_no_telp);
                 }
-                if($.trim($('.email').val()).length == 0){
+                if ($.trim($('.email').val()).length == 0) {
                     error_email = 'Email Cannot Be Empty!!';
                     $('#error_email').text(error_email);
                 } else {
@@ -93,7 +141,7 @@
                     $('#error_email').text(error_email);
                 }
 
-                if(error_nama != '' || error_no_telp != '' || error_email != ''){
+                if (error_nama != '' || error_no_telp != '' || error_email != '') {
                     return false;
                 } else {
                     var data = {
@@ -105,10 +153,12 @@
                         method: "POST",
                         url: "create/data/post",
                         data: data,
-                        success:function(response){
+                        success: function(response) {
                             $('#addModal').modal('hide');
                             $('#addModal').find('input').val('');
-                            
+                            $('.data-information').html("");
+                            loaddata();
+
                             alertify.set('notifier', 'position', 'top-right');
                             alertify.success(response.status);
                         }
@@ -118,7 +168,7 @@
         });
     </script>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
+    
 </body>
 
 </html>

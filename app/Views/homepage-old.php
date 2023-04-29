@@ -230,3 +230,7 @@
 </body>
 
 </html>
+
+$.each(collection, function (key, value) { 
+                        console.log(value['nama']);
+                    });

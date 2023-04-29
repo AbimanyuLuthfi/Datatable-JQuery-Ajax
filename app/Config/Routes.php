@@ -31,6 +31,7 @@ $routes->set404Override();
 // route since we don't have to scan directories.
 $routes->get('/', 'DataController::index');
 $routes->post('create/data/post', 'DataController::admin_data_create'); 
+$routes->get('data/index', 'DataController::fetch_data'); 
 
 /*
  * --------------------------------------------------------------------
