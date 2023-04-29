@@ -12,12 +12,12 @@
 
 <body>
 
-    <!-- Modal -->
+    <!-- Add Modal -->
     <div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="addModalLabel">Add Data</h1>
+                <div class="modal-header bg-primary">
+                    <h1 class="modal-title fs-5 text-white" id="addModalLabel">Add Data</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -37,6 +37,69 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                     <button type="button" class="btn btn-primary ajaxdata-save">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Edit Modal -->
+    <div class="modal fade" id="dataEditModal" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-info">
+                    <h1 class="modal-title fs-5 text-white" id="addModalLabel">Edit Data</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" id="data_id">
+                    <div class="form-group">
+                        <label>Nama</label>
+                        <input type="text" id="data_nama" class="form-control nama" placeholder="Nama">
+                    </div>
+                    <div class="form-group">
+                        <label>No Telp</label>
+                        <input type="text" id="data_no_telp" class="form-control no_telp" placeholder="Nama">
+                    </div>
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" id="data_email" class="form-control email" placeholder="Nama">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary ajaxdata-update">Update</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Modal -->
+    <div class="modal fade" id="dataDeleteModal" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-info">
+                    <h1 class="modal-title fs-5 text-white" id="addModalLabel">Delete Data</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" id="data_id">
+                    <div class="form-group">
+                        <label>Nama</label>
+                        <input type="text" id="data_nama" class="form-control nama" placeholder="Nama">
+                    </div>
+                    <div class="form-group">
+                        <label>No Telp</label>
+                        <input type="text" id="data_no_telp" class="form-control no_telp" placeholder="Nama">
+                    </div>
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" id="data_email" class="form-control email" placeholder="Nama">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary ajaxdata-update">Update</button>
                 </div>
             </div>
         </div>
@@ -86,26 +149,77 @@
 
 
     <script>
-        $(document).ready(function () {
+        $(document).ready(function() {
             loaddata();
+
+            $(document).on('click', '.edit_btn', function() {
+
+                var data_id = $(this).closest('tr').find('.data_id').text();
+
+                $.ajax({
+                    type: "POST",
+                    url: "data/edit",
+                    data: {
+                        'data_id': data_id
+                    },
+                    success: function(response) {
+                        $.each(response, function(key, datavalue) {
+                            $('#data_id').val(datavalue['id']);
+                            $('#data_nama').val(datavalue['nama']);
+                            $('#data_no_telp').val(datavalue['no_telp']);
+                            $('#data_email').val(datavalue['email']);
+                            $('#dataEditModal').modal('show')
+                        });
+                    }
+                });
+
+            });
+
+            $(document).on('click', '.ajaxdata-update', function() {
+                var data = {
+                    'data_id': $('#data_id').val(),
+                    'nama': $('#data_nama').val(),
+                    'no_telp': $('#data_no_telp').val(),
+                    'email': $('#data_email').val(),
+                };
+
+                $.ajax({
+                    type: "POST",
+                    url: "data/update",
+                    data: data,
+                    success: function(response) {
+                        $('#dataEditModal').modal('hide');
+                        $('.data-information').html("");
+                        loaddata();
+
+                        alertify.set('notifier', 'position', 'top-right');
+                        alertify.success(response.status);
+                    }
+                })
+            });
+
+            $(document).on('click', '.delete_btn', function () {
+                var data_id = $(this).closest('tr').find('.data_id').text();
+                $('#dataDeleteModal').modal('show')
+            });
         });
 
-        function loaddata(){
+        function loaddata() {
             $.ajax({
                 method: "GET",
                 url: "data/index",
-                success: function (response){
+                success: function(response) {
                     //console.log(response.data);
-                    $.each(response.data, function (key, value) { 
+                    $.each(response.data, function(key, value) {
                         // console.log(value['name']);
                         $('.data-information').append('<tr>\
-                        <td>'+value['id']+'</td>\
-                        <td>'+value['nama']+'</td>\
-                        <td>'+value['no_telp']+'</td>\
-                        <td>'+value['email']+'</td>\
-                        <td>'+value['created_at']+'</td>\
+                        <td class="data_id">' + value['id'] + '</td>\
+                        <td>' + value['nama'] + '</td>\
+                        <td>' + value['no_telp'] + '</td>\
+                        <td>' + value['email'] + '</td>\
+                        <td>' + value['created_at'] + '</td>\
                         <td>\
-                        <a href="#" class="btn btn-info view_btn">Edit</a>\
+                        <a href="#" class="btn btn-info edit_btn">Edit</a>\
                         <a href="#" class="btn btn-danger delete_btn">Delete</a>\
                         </td>\
                         </tr>');
@@ -168,7 +282,7 @@
         });
     </script>
 
-    
+
 </body>
 
 </html>
