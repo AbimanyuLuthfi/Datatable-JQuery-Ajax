@@ -34,6 +34,7 @@ $routes->post('create/data/post', 'DataController::admin_data_create');
 $routes->get('data/index', 'DataController::fetch_data'); 
 $routes->post('data/edit', 'DataController::edit_data'); 
 $routes->post('data/update', 'DataController::update_data'); 
+$routes->post('data/delete', 'DataController::delete_data'); 
 
 /*
  * --------------------------------------------------------------------

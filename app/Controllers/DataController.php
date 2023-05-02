@@ -75,6 +75,17 @@ class DataController extends BaseController
         return $this->response->setJSON($message);
     }
 
+    /**
+     * POST : data/delete
+     */
+    public function delete_data(){
+        $dataModel = new DataModel;
+        $dataModel->delete($this->request->getPost('data_id'));
+
+        $message = ['status' => 'Berhasil Delete Data'];
+        return $this->response->setJSON($message);
+    }
+
     public function list_data_index(){
 
         $dataModel = new DataModel();

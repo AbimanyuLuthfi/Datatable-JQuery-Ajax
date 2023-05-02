@@ -8,6 +8,8 @@
 
     <!-- Bootstrap 5 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css">
+
 </head>
 
 <body>
@@ -78,28 +80,17 @@
     <div class="modal fade" id="dataDeleteModal" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
-                <div class="modal-header bg-info">
+                <div class="modal-header bg-danger">
                     <h1 class="modal-title fs-5 text-white" id="addModalLabel">Delete Data</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <input type="hidden" id="data_id">
-                    <div class="form-group">
-                        <label>Nama</label>
-                        <input type="text" id="data_nama" class="form-control nama" placeholder="Nama">
-                    </div>
-                    <div class="form-group">
-                        <label>No Telp</label>
-                        <input type="text" id="data_no_telp" class="form-control no_telp" placeholder="Nama">
-                    </div>
-                    <div class="form-group">
-                        <label>Email</label>
-                        <input type="email" id="data_email" class="form-control email" placeholder="Nama">
-                    </div>
+                    <input type="hidden" id="data_delete_id">
+                    <h4>Are You Sure Want To Delete This Data??</h4>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary ajaxdata-update">Update</button>
+                    <button type="button" class="btn btn-danger ajaxdata-deletebtn">Delete</button>
                 </div>
             </div>
         </div>
@@ -118,7 +109,7 @@
                         </h4>
                     </div>
                     <div class="card-body">
-                        <table class="table table-bordered">
+                        <table class="table table-bordered" id="data-table">
                             <thead>
                                 <tr>
                                     <th>No</th>
@@ -146,6 +137,8 @@
     <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.6.4.js" integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=" crossorigin="anonymous"></script>
+    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
 
 
     <script>
@@ -200,33 +193,82 @@
 
             $(document).on('click', '.delete_btn', function () {
                 var data_id = $(this).closest('tr').find('.data_id').text();
-                $('#dataDeleteModal').modal('show')
+                $('#data_delete_id').val(data_id);
+                $('#dataDeleteModal').modal('show');
+            });
+
+            $(document).on('click', '.ajaxdata-deletebtn', function () {
+                var data_id = $('#data_delete_id').val();
+
+                $.ajax({
+                    type: "POST",
+                    url: "data/delete",
+                    data: {
+                        'data_id' : data_id
+                    },
+                    success: function (response) {
+                        $('#dataDeleteModal').modal('hide');
+                        $('.data-information').html("");
+                        loaddata();
+
+                        alertify.set('notifier', 'position', 'top-right');
+                        alertify.success(response.status);
+                    }
+                });
             });
         });
 
+        // function loaddata() {
+        //     $.ajax({
+        //         method: "GET",
+        //         url: "data/index",
+        //         success: function(response) {
+        //             //console.log(response.data);
+        //             $.each(response.data, function(key, value) {
+        //                 // console.log(value['name']);
+        //                 $('.data-information').append('<tr>\
+        //                 <td class="data_id">' + value['id'] + '</td>\
+        //                 <td>' + value['nama'] + '</td>\
+        //                 <td>' + value['no_telp'] + '</td>\
+        //                 <td>' + value['email'] + '</td>\
+        //                 <td>' + value['created_at'] + '</td>\
+        //                 <td>\
+        //                 <a href="#" class="btn btn-warning edit_btn">Edit</a>\
+        //                 <a href="#" class="btn btn-danger delete_btn">Delete</a>\
+        //                 </td>\
+        //                 </tr>');
+        //             });
+        //         }
+        //     });
+        // }
+
         function loaddata() {
-            $.ajax({
-                method: "GET",
-                url: "data/index",
-                success: function(response) {
-                    //console.log(response.data);
-                    $.each(response.data, function(key, value) {
-                        // console.log(value['name']);
-                        $('.data-information').append('<tr>\
-                        <td class="data_id">' + value['id'] + '</td>\
-                        <td>' + value['nama'] + '</td>\
-                        <td>' + value['no_telp'] + '</td>\
-                        <td>' + value['email'] + '</td>\
-                        <td>' + value['created_at'] + '</td>\
-                        <td>\
-                        <a href="#" class="btn btn-info edit_btn">Edit</a>\
-                        <a href="#" class="btn btn-danger delete_btn">Delete</a>\
-                        </td>\
-                        </tr>');
-                    });
-                }
+    $.ajax({
+        method: "GET",
+        url: "data/index",
+        dataType: "json", // tambahkan dataType untuk mengambil data dalam format JSON
+        success: function(response) {
+            //console.log(response);
+            $('#data-table').DataTable({ // inisialisasi DataTable pada tabel yang memiliki ID 'data-table'
+                data: response.data, // memasukkan data ke dalam DataTable
+                columns: [ // menentukan kolom pada DataTable
+                    { data: 'id' },
+                    { data: 'nama' },
+                    { data: 'no_telp' },
+                    { data: 'email' },
+                    { data: 'created_at' },
+                    {
+                        data: null, // membuat kolom kosong untuk tombol edit dan delete
+                        render: function(data, type, row) {
+                            return '<a href="#" class="btn btn-warning edit_btn">Edit</a>\
+                                    <a href="#" class="btn btn-danger delete_btn">Delete</a>';
+                        }
+                    }
+                ]
             });
         }
+    });
+}
     </script>
 
     <script>
