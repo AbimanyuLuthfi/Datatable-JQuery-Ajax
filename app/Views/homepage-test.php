@@ -29,11 +29,11 @@
                     </div>
                     <div class="form-group">
                         <label>No Telp</label><span id="error_no_telp" class="text-danger ms-3"></span>
-                        <input type="text" class="form-control no_telp" placeholder="Nama">
+                        <input type="text" class="form-control no_telp" placeholder="No Telp">
                     </div>
                     <div class="form-group">
                         <label>Email</label><span id="error_email" class="text-danger ms-3"></span>
-                        <input type="email" class="form-control email" placeholder="Nama">
+                        <input type="email" class="form-control email" placeholder="Email">
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -85,7 +85,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <input type="hidden" id="data_delete_id">
+                    <input type="text" id="data_delete_id">
                     <h4>Are You Sure Want To Delete This Data??</h4>
                 </div>
                 <div class="modal-footer">
@@ -99,7 +99,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-12 my-4">
-                <h1 class="text-center">JQuery Ajax CRUD Application></h1>
+                <h1 class="text-center">JQuery Ajax CRUD Application</h1>
             </div>
             <div class="col-md-12 my-4">
                 <div class="card">
@@ -109,7 +109,7 @@
                         </h4>
                     </div>
                     <div class="card-body">
-                        <table class="table table-bordered" id="data-table">
+                        <!-- <table class="table table-bordered" id="data-table">
                             <thead>
                                 <tr>
                                     <th>No</th>
@@ -121,9 +121,34 @@
                                 </tr>
                             </thead>
                             <tbody class="data-information">
-
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
                             </tbody>
-                        </table>
+                        </table> -->
+
+                        <div class="table-responsive">
+                            <table class="table data-information">
+                                <thead>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Name</th>
+                                        <th>Phone Number</th>
+                                        <th>Email</th>
+                                        <th>Created At</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -145,15 +170,252 @@
         $(document).ready(function() {
             loaddata();
 
+
+
+            // $(document).on('click', '.delete_btn', function() {
+            //     var data_id = $(this).closest('tr').find('.data_id').text();
+            //     $('#data_delete_id').val(data_id);
+            //     $('#dataDeleteModal').modal('show');
+            // });
+
+        });
+
+        // function loaddata() {
+        //     $.ajax({
+        //         method: "GET",
+        //         url: "data/index",
+        //         success: function(response) {
+        //             //console.log(response.data);
+        //             $.each(response.data, function(key, value) {
+        //                 // console.log(value['name']);
+        //                 $('.data-information').append('<tr>\
+        //                 <td class="data_id">' + value['id'] + '</td>\
+        //                 <td>' + value['nama'] + '</td>\
+        //                 <td>' + value['no_telp'] + '</td>\
+        //                 <td>' + value['email'] + '</td>\
+        //                 <td>' + value['created_at'] + '</td>\
+        //                 <td>\
+        //                 <a href="#" class="btn btn-warning edit_btn">Edit</a>\
+        //                 <a href="#" class="btn btn-danger delete_btn">Delete</a>\
+        //                 </td>\
+        //                 </tr>');
+        //             });
+        //         }
+        //     });
+        // }
+
+        // function loaddata() {
+
+        //     $.ajax({
+        //         method: "GET",
+        //         url: "data/index",
+        //         dataType: "json", // tambahkan dataType untuk mengambil data dalam format JSON
+        //         success: function(response) {
+        //             //console.log(response);
+        //             $('.data-information').DataTable({ // inisialisasi DataTable pada tabel yang memiliki ID 'data-table'
+        //                 data: response.data, // memasukkan data ke dalam DataTable
+        //                 columns: [ // menentukan kolom pada DataTable
+        //                     {
+        //                         data: 'id'
+        //                     },
+        //                     {
+        //                         data: 'nama'
+        //                     },
+        //                     {
+        //                         data: 'no_telp'
+        //                     },
+        //                     {
+        //                         data: 'email'
+        //                     },
+        //                     {
+        //                         data: 'created_at'
+        //                     },
+        //                     {
+        //                         data: null, // membuat kolom kosong untuk tombol edit dan delete
+        //                         render: function(data, type, row) {
+        //                             return '<a href="#" class="btn btn-warning edit_btn">Edit</a>\
+        //                             <a href="#" class="btn btn-danger delete_btn">Delete</a>';
+        //                         }
+        //                     }
+        //                 ]
+        //             });
+        //         }
+        //     });
+        // }
+    </script>
+
+    <script>
+        // $(document).ready(function() {
+        //     $(document).on('click', '.ajaxdata-save', function() {
+
+        //         if ($.trim($('.nama').val()).length == 0) {
+        //             error_nama = 'Name Cannot Be Empty!!';
+        //             $('#error_nama').text(error_nama);
+        //         } else {
+        //             error_nama = '';
+        //             $('#error_nama').text(error_nama);
+        //         }
+        //         if ($.trim($('.no_telp').val()).length == 0) {
+        //             error_no_telp = 'Please Fill Your Phone Number!!';
+        //             $('#error_no_telp').text(error_no_telp);
+        //         } else {
+        //             error_no_telp = '';
+        //             $('#error_no_telp').text(error_no_telp);
+        //         }
+        //         if ($.trim($('.email').val()).length == 0) {
+        //             error_email = 'Email Cannot Be Empty!!';
+        //             $('#error_email').text(error_email);
+        //         } else {
+        //             error_email = '';
+        //             $('#error_email').text(error_email);
+        //         }
+
+        //         if (error_nama != '' || error_no_telp != '' || error_email != '') {
+        //             return false;
+        //         } else {
+        //             var data = {
+        //                 'nama': $('.nama').val(),
+        //                 'no_telp': $('.no_telp').val(),
+        //                 'email': $('.email').val(),
+        //             }
+        //             var table = $('.data-information').DataTable({
+        //                 "ajax": {
+        //                     "url": "data/index",
+        //                     "dataSrc": "data"
+        //                 },
+        //                 "columns": [{
+        //                         "data": "id"
+        //                     },
+        //                     {
+        //                         "data": "nama"
+        //                     },
+        //                     {
+        //                         "data": "no_telp"
+        //                     },
+        //                     {
+        //                         "data": "email"
+        //                     },
+        //                     {
+        //                         "data": "created_at"
+        //                     },
+        //                     {
+        //                         "data": null,
+        //                         "render": function(data, type, full, meta) {
+        //                             return '<a href="#" class="btn btn-warning edit_btn">Edit</a>\
+        //                 <a href="#" class="btn btn-danger delete_btn">Delete</a>';
+        //                         }
+        //                     }
+        //                 ]
+        //             });
+        //             $.ajax({
+        //                 method: "POST",
+        //                 url: "create/data/post",
+        //                 data: data,
+        //                 success: function(response) {
+        //                     $('#addModal').modal('hide');
+        //                     $('#addModal').find('input').val('');
+        //                     $('#data-table').ajax.reload();
+
+        //                     alertify.set('notifier', 'position', 'top-right');
+        //                     alertify.success(response.status);
+        //                 }
+        //             })
+        //         }
+        //     });
+        // });
+
+
+        $(document).ready(function() {
+            var table = $('.data-information').DataTable({
+                "ajax": {
+                    "url": "data/index",
+                    "dataSrc": "data"
+                },
+                "columns": [{
+                        "data": "id"
+                    },
+                    {
+                        "data": "nama"
+                    },
+                    {
+                        "data": "no_telp"
+                    },
+                    {
+                        "data": "email"
+                    },
+                    {
+                        "data": "created_at"
+                    },
+                    {
+                        "data": null,
+                        "render": function(data, type, full, meta) {
+                            return '<a href="#" class="btn btn-warning edit_btn">Edit</a>\
+                    <a href="#" class="btn btn-danger delete_btn">Delete</a>';
+                        }
+                    }
+                ]
+            });
+
+            $(document).on('click', '.ajaxdata-save', function() {
+                var nama = $('.nama').val();
+                var no_telp = $('.no_telp').val();
+                var email = $('.email').val();
+
+                if ($.trim(nama).length == 0) {
+                    error_nama = 'Name Cannot Be Empty!!';
+                    $('#error_nama').text(error_nama);
+                } else {
+                    error_nama = '';
+                    $('#error_nama').text(error_nama);
+                }
+                if ($.trim(no_telp).length == 0) {
+                    error_no_telp = 'Please Fill Your Phone Number!!';
+                    $('#error_no_telp').text(error_no_telp);
+                } else {
+                    error_no_telp = '';
+                    $('#error_no_telp').text(error_no_telp);
+                }
+                if ($.trim(email).length == 0) {
+                    error_email = 'Email Cannot Be Empty!!';
+                    $('#error_email').text(error_email);
+                } else {
+                    error_email = '';
+                    $('#error_email').text(error_email);
+                }
+
+                if (error_nama != '' || error_no_telp != '' || error_email != '') {
+                    return false;
+                } else {
+                    $.ajax({
+                        method: "POST",
+                        url: "create/data/post",
+                        data: {
+                            'nama': nama,
+                            'no_telp': no_telp,
+                            'email': email,
+                        },
+                        success: function(response) {
+                            $('#addModal').modal('hide');
+                            $('#addModal').find('input').val('');
+                            // $('.data-information').ajax.reload();
+                            $('.data-information').DataTable().ajax.reload();
+
+                            alertify.set('notifier', 'position', 'top-right');
+                            alertify.success(response.status);
+                        }
+                    });
+                }
+            });
+
             $(document).on('click', '.edit_btn', function() {
 
-                var data_id = $(this).closest('tr').find('.data_id').text();
+                var data = table.row($(this).parents('tr')).data();
 
                 $.ajax({
                     type: "POST",
                     url: "data/edit",
                     data: {
-                        'data_id': data_id
+                        'data_id': data['id']
                     },
                     success: function(response) {
                         $.each(response, function(key, datavalue) {
@@ -182,8 +444,7 @@
                     data: data,
                     success: function(response) {
                         $('#dataEditModal').modal('hide');
-                        $('.data-information').html("");
-                        loaddata();
+                        $('.data-information').DataTable().ajax.reload();
 
                         alertify.set('notifier', 'position', 'top-right');
                         alertify.success(response.status);
@@ -191,135 +452,29 @@
                 })
             });
 
-            $(document).on('click', '.delete_btn', function () {
-                var data_id = $(this).closest('tr').find('.data_id').text();
-                $('#data_delete_id').val(data_id);
+            $(document).on('click', '.delete_btn', function() {
+                var data = table.row($(this).parents('tr')).data();
+                $('#data_delete_id').val(data['id']);
                 $('#dataDeleteModal').modal('show');
             });
 
-            $(document).on('click', '.ajaxdata-deletebtn', function () {
+            $(document).on('click', '.ajaxdata-deletebtn', function() {
                 var data_id = $('#data_delete_id').val();
 
                 $.ajax({
                     type: "POST",
                     url: "data/delete",
                     data: {
-                        'data_id' : data_id
+                        'data_id': data_id
                     },
-                    success: function (response) {
+                    success: function(response) {
                         $('#dataDeleteModal').modal('hide');
-                        $('.data-information').html("");
-                        loaddata();
+                        $('.data-information').DataTable().ajax.reload();
 
                         alertify.set('notifier', 'position', 'top-right');
                         alertify.success(response.status);
                     }
                 });
-            });
-        });
-
-        // function loaddata() {
-        //     $.ajax({
-        //         method: "GET",
-        //         url: "data/index",
-        //         success: function(response) {
-        //             //console.log(response.data);
-        //             $.each(response.data, function(key, value) {
-        //                 // console.log(value['name']);
-        //                 $('.data-information').append('<tr>\
-        //                 <td class="data_id">' + value['id'] + '</td>\
-        //                 <td>' + value['nama'] + '</td>\
-        //                 <td>' + value['no_telp'] + '</td>\
-        //                 <td>' + value['email'] + '</td>\
-        //                 <td>' + value['created_at'] + '</td>\
-        //                 <td>\
-        //                 <a href="#" class="btn btn-warning edit_btn">Edit</a>\
-        //                 <a href="#" class="btn btn-danger delete_btn">Delete</a>\
-        //                 </td>\
-        //                 </tr>');
-        //             });
-        //         }
-        //     });
-        // }
-
-        function loaddata() {
-    $.ajax({
-        method: "GET",
-        url: "data/index",
-        dataType: "json", // tambahkan dataType untuk mengambil data dalam format JSON
-        success: function(response) {
-            //console.log(response);
-            $('#data-table').DataTable({ // inisialisasi DataTable pada tabel yang memiliki ID 'data-table'
-                data: response.data, // memasukkan data ke dalam DataTable
-                columns: [ // menentukan kolom pada DataTable
-                    { data: 'id' },
-                    { data: 'nama' },
-                    { data: 'no_telp' },
-                    { data: 'email' },
-                    { data: 'created_at' },
-                    {
-                        data: null, // membuat kolom kosong untuk tombol edit dan delete
-                        render: function(data, type, row) {
-                            return '<a href="#" class="btn btn-warning edit_btn">Edit</a>\
-                                    <a href="#" class="btn btn-danger delete_btn">Delete</a>';
-                        }
-                    }
-                ]
-            });
-        }
-    });
-}
-    </script>
-
-    <script>
-        $(document).ready(function() {
-            $(document).on('click', '.ajaxdata-save', function() {
-
-                if ($.trim($('.nama').val()).length == 0) {
-                    error_nama = 'Name Cannot Be Empty!!';
-                    $('#error_nama').text(error_nama);
-                } else {
-                    error_nama = '';
-                    $('#error_nama').text(error_nama);
-                }
-                if ($.trim($('.no_telp').val()).length == 0) {
-                    error_no_telp = 'Please Fill Your Phone Number!!';
-                    $('#error_no_telp').text(error_no_telp);
-                } else {
-                    error_no_telp = '';
-                    $('#error_no_telp').text(error_no_telp);
-                }
-                if ($.trim($('.email').val()).length == 0) {
-                    error_email = 'Email Cannot Be Empty!!';
-                    $('#error_email').text(error_email);
-                } else {
-                    error_email = '';
-                    $('#error_email').text(error_email);
-                }
-
-                if (error_nama != '' || error_no_telp != '' || error_email != '') {
-                    return false;
-                } else {
-                    var data = {
-                        'nama': $('.nama').val(),
-                        'no_telp': $('.no_telp').val(),
-                        'email': $('.email').val(),
-                    }
-                    $.ajax({
-                        method: "POST",
-                        url: "create/data/post",
-                        data: data,
-                        success: function(response) {
-                            $('#addModal').modal('hide');
-                            $('#addModal').find('input').val('');
-                            $('.data-information').html("");
-                            loaddata();
-
-                            alertify.set('notifier', 'position', 'top-right');
-                            alertify.success(response.status);
-                        }
-                    })
-                }
             });
         });
     </script>
